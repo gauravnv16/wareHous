@@ -1,0 +1,84 @@
+<div class="ui animated button" tabindex="0">
+    <div class="visible content">back</div>
+    <div class="hidden content">
+        <a href="/"><i class="left arrow icon"></i></a>
+    </div>
+  </div>
+<h1><a class="ui image label" style="padding:10px;">
+    <img src="https://cdn-icons.flaticon.com/png/512/913/premium/913458.png?token=exp=1659423490~hmac=49ecab67f89a8435c0a60a066503bff4">
+    <h5 style="display: inline;">Units</h5>
+  </a></h1>
+<br>
+
+<form action="/units/search" method="post">
+    <div class="ui action input">
+        <input type="text" placeholder="Search..." name="uname" id="uname">
+        <button class="ui icon button">
+        <i class="search icon"></i>
+        </button>
+    </div>
+</form>
+<br>
+
+<div class="ui animated  fade button" tabindex="0">
+    <div class="visible content"><i class="plus icon"></i> Add a Unit</div>
+    <div class="hidden content">
+        <a href="/units/add">New Unit</a>
+    </div>
+</div>
+
+<% if (sear == 1 || sear == -1) { %>
+    <button class="ui button">
+        <a href="/units">clear search</a>
+    </button>
+<% } %>
+
+
+<br><br>
+<table class="ui sortable celled collapsing table">
+    <thead>
+        <tr>
+            <th>S.no</th>
+            <th>Unit Name</th>
+            <th>IsActive</th>
+            <% if (status.isadmin == true ||  status.ischecker == true) { %>
+            <th>Operations</th>
+            <% } %>
+        </tr>
+    </thead>
+    <tbody>
+        <% if(sear == -1) { %>
+            <tr><td>item not found!!</td></tr>
+        <% } %>
+        <% for(var i = 0 ; i <units.length ; i++) {%>
+            <tr>
+                <td><%= i + 1%>.</td>
+                <td><%=units[i].UNIT_NAME%></td>
+    
+                <% if(units[i].ISACTIVE == 1){ %>
+                <td>true</td>
+                <% } else {%>
+                <td>False</td>
+                <% } %>
+    
+                <% if (status.isadmin == true ||  status.ischecker == true) { %>
+                    <td>
+                        <form action="/units/edit" method="post" style="display: inline">
+                            <input type="text" name="uname" value=<%=units[i].UNIT_NAME%> class="hidden1">
+                            <input type="text" name="stat" id="stat" value="1" class="hidden1">
+                            <button class="ui icon button">
+                                <i class="edit icon"></i>
+                            </button>
+                        </form>
+                        <form action="/units/delete" method="post" style="display: inline">
+                            <input type="text" name="uname" value=<%=units[i].UNIT_NAME%> class="hidden1">
+                            <button class="ui icon button">
+                                <i class="trash alternate outline icon"></i>
+                            </button>
+                        </form>
+                    </td>
+                <% } %>
+            </tr>
+        <% } %>
+    </tbody>
+</table>

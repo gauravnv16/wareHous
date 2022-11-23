@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mouse+Memoirs&family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
+    <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    
+<script src="http://semantic-ui.com/javascript/library/tablesort.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <style>
+        
+        a{
+            color:black;
+        }
+        body{
+            padding:0;
+        }
+        .hidden1{
+            display: none;
+        }
+
+        
+        
+        .nav{
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            
+           
+        }
+       
+
+        .nav_links{
+            display:flex;
+            list-style: none;
+        }
+        .nav_links a{
+            font-family: 'Roboto Condensed', sans-serif;
+            margin:20px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+      
+        
+    </style>
+</head>
+<body onload="myFn()">
+    <nav class="nav">
+        <h1 class="nav_brand">
+          <i class="fa-brands fa-atlassian"></i> Inventory Management
+        </h1>
+        <ul class="nav_links">
+            <% if (status.login_status == false) {%>
+                <li class="nav_item btn-main"><a href="/login">Login</a></li>
+                <li class="nav_item btn-side"><a href="/register">Register</a></li>
+            <% } else { %>
+                <li class="nav_item btn-main">
+                    <div class="ui animated fade button" tabindex="0">
+                        <div class="visible content"><%=status.user_name%></div>
+                        <div class="hidden content">
+                          <a href="/"><i class="user outline icon"></i></a>
+                        </div>
+                    </div></li>
+                <li class="nav_item btn-side">
+                    <button class="ui basic button">
+                        <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+                      </button>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
+  
+<% if (status.login_status == true) {%>
+    <div style="display:flex;">
+        <div >
+            <div class="ui vertical menu autumn leaf" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;margin-right: 20px;">
+                <div class="item" style="background-color: #FFFFFF;">
+                  <div class="header"><i class="balance scale icon"></i> Units</div>
+                  <div class="menu">
+                    <a class="item" href="/units">Manage Units</a>
+                    <a class="item" href="/units/add">Add Unit</a>
+                  </div>
+                </div>
+                <div class="item" style="background-color: #FFFFFF;">
+                  <div class="header"><i class="sitemap icon"></i> Category</div>
+                  <div class="menu">
+                    <a class="item" href="/category">Manage Categories</a>
+                    <a class="item" href="/category/add">Add Categories</a>
+                  </div>
+                </div>
+                <div class="item" style="background-color: #FFFFFF;">
+                  <div class="header"><i class="box icon"></i> Products</div>
+                  <div class="menu">
+                    <a class="item" href="/inventory">Manage Products</a>
+                    <a class="item" href="/inventory/add" >Add products</a>
+                    <a class="item" href="/alerts">Product alerts</a>
+                    <a class="item" href="/damaged">Check damaged products</a>
+                  </div>
+                </div>
+                <div class="item" style="background-color: #FFFFFF;">
+                  <div class="header"><i class="shopping cart icon"></i> Order</div>
+                  <div class="menu">
+                    <a class="item" href="/orders">Create Order</a>
+                  </div>
+                </div>
+                <div class="item" style="background-color: #FFFFFF;">
+                    <div class="header"><i class="file icon"></i> Invoice</div>
+                    <div class="menu">
+                      <a class="item" href="/manageorders">Order Invoice</a>
+                      <a class="item" href="/incomingInvoice" >Inventory Invoice</a>
+                    </div>
+                  </div>
+              </div>
+        </div>
+        <div class="autumn1 leaf1" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;width:75%;padding:20px;border-radius:10px;height:87vh;overflow-y: scroll;">
+            <%- body%>
+        </div>
+    </div>
+<% } else {%>
+    <%- body%>
+<% } %>
+
+
+  <script>
+
+    function myFn(){
+      $('table').tablesort()
+    }
+
+  (function($) {
+	$.tablesort = function ($table, settings) {
+		var self = this;
+		this.$table = $table;
+		this.$thead = this.$table.find('thead');
+		this.settings = $.extend({}, $.tablesort.defaults, settings);
+		this.$sortCells = this.$thead.length > 0 ? this.$thead.find('th:not(.no-sort)') : this.$table.find('th:not(.no-sort)');
+		this.$sortCells.on('click.tablesort', function() {
+			self.sort($(this));
+		});
+		this.index = null;
+		this.$th = null;
+		this.direction = null;
+	};
+
+	$.tablesort.prototype = {
+
+		sort: function(th, direction) {
+			var start = new Date(),
+				self = this,
+				table = this.$table,
+				rowsContainer = table.find('tbody').length > 0 ? table.find('tbody') : table,
+				rows = rowsContainer.find('tr').has('td, th'),
+				cells = rows.find(':nth-child(' + (th.index() + 1) + ')').filter('td, th'),
+				sortBy = th.data().sortBy,
+				sortedMap = [];
+
+			var unsortedValues = cells.map(function(idx, cell) {
+				if (sortBy)
+					return (typeof sortBy === 'function') ? sortBy($(th), $(cell), self) : sortBy;
+				return ($(this).data().sortValue != null ? $(this).data().sortValue : $(this).text());
+			});
+			if (unsortedValues.length === 0) return;
+
+			//click on a different column
+			if (this.index !== th.index()) {
+				this.direction = 'asc';
+				this.index = th.index();
+			}
+			else if (direction !== 'asc' && direction !== 'desc')
+				this.direction = this.direction === 'asc' ? 'desc' : 'asc';
+			else
+				this.direction = direction;
+
+			direction = this.direction == 'asc' ? 1 : -1;
+
+			self.$table.trigger('tablesort:start', [self]);
+			self.log("Sorting by " + this.index + ' ' + this.direction);
+
+			// Try to force a browser redraw
+			self.$table.css("display");
+			// Run sorting asynchronously on a timeout to force browser redraw after
+			// `tablesort:start` callback. Also avoids locking up the browser too much.
+			setTimeout(function() {
+				self.$sortCells.removeClass(self.settings.asc + ' ' + self.settings.desc);
+				for (var i = 0, length = unsortedValues.length; i < length; i++)
+				{
+					sortedMap.push({
+						index: i,
+						cell: cells[i],
+						row: rows[i],
+						value: unsortedValues[i]
+					});
+				}
+
+				sortedMap.sort(function(a, b) {
+					return self.settings.compare(a.value, b.value) * direction;
+				});
+
+				$.each(sortedMap, function(i, entry) {
+					rowsContainer.append(entry.row);
+				});
+
+				th.addClass(self.settings[self.direction]);
+
+				self.log('Sort finished in ' + ((new Date()).getTime() - start.getTime()) + 'ms');
+				self.$table.trigger('tablesort:complete', [self]);
+				//Try to force a browser redraw
+				self.$table.css("display");
+			}, unsortedValues.length > 2000 ? 200 : 10);
+		},
+
+		log: function(msg) {
+			if(($.tablesort.DEBUG || this.settings.debug) && console && console.log) {
+				console.log('[tablesort] ' + msg);
+			}
+		},
+
+		destroy: function() {
+			this.$sortCells.off('click.tablesort');
+			this.$table.data('tablesort', null);
+			return null;
+		}
+
+	};
+
+	$.tablesort.DEBUG = false;
+
+	$.tablesort.defaults = {
+		debug: $.tablesort.DEBUG,
+		asc: 'sorted ascending',
+		desc: 'sorted descending',
+		compare: function(a, b) {
+			if (a > b) {
+				return 1;
+			} else if (a < b) {
+				return -1;
+			} else {
+				return 0;
+			}
+		}
+	};
+
+	$.fn.tablesort = function(settings) {
+		var table, sortable, previous;
+		return this.each(function() {
+			table = $(this);
+			previous = table.data('tablesort');
+			if(previous) {
+				previous.destroy();
+			}
+			table.data('tablesort', new $.tablesort(table, settings));
+		});
+	};
+
+})(window.Zepto || window.jQuery);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<button class="ui button">
+    <a href="/inventory">back</a>
+</button>
+
+<h1>Add Product Details</h1>
+
+<select name="type" id="type" class="ui selection dropdown" onchange="dmCheck()">
+    <option value="damaged">damaged</option>
+    <option value="not_damaged">not damaged</option>
+</select> <br><br>
+
+
+
+<form action="/goodproduct" class="ui form" method="post" id="ndm" style="display:none;width:300px">
+    <h5>Good Product</h5>
+    vendor Code:
+    <input class="field" type="text" name="vcode">
+    <br><br>
+    Product Name: 
+    <input type="text" name="pname" id="pname">
+    <br><br>
+    Product Description:
+    <input type="text" name="desc" id="desc">
+    <br><br>
+
+    category:
+    <select name="category" id="category">
+        <% for(var i=0; i<category.length ;i++) { %>
+            <option value=<%=category[i].CAT_NAME%>><%=category[i].CAT_NAME%></option>
+        <% } %>
+    </select>
+    <br><br>
+    unit:
+    <select name="unit" id="unit">
+        <% for(var i=0; i<units.length ;i++) { %>
+            <option value=<%=units[i].UNIT_NAME%>><%=units[i].UNIT_NAME%></option>
+        <% } %>
+    </select>
+   
+
+    <br><br>
+    Quantity:
+    <input type="text" name="qty" id="qty">
+    <br><br>
+    PPI:
+    <input type="text" name="ppi" id="ppi">
+    <br><br>
+    EXP_DATE
+    <input type="date" name="ed" id="ed">
+    <br><br>
+
+    <button class="ui primary button">
+        Save
+      </button>
+      <span class="ui button">
+        <a href="/inventory">Discard</a>
+      </span>
+</form>
+
+<form action="/damagedproduct" class="ui form" style="width:300px ;" id="dm" method="post">
+    <h5>Damaged Product</h5>
+    vendor Code:
+    <input type="text" name="vcode">
+    <br><br>
+    Product Name: 
+    <input type="text" name="pname" id="pname">
+    <br><br>
+    Select Damage type:
+    <select name="dtype" id="dtype">
+        <option value="During_Shipping">During Shipping</option>
+        <option value="During_Transport">During Transport</option>
+        <option value="Product_Expired">Product Expired</option>
+    </select>
+
+    <br><br>
+    Quantity:
+    <input type="text" name="qty" id="qty">
+    <br><br>
+    PPI:
+    <input type="text" name="ppi" id="ppi">
+    <br><br>
+    TC:
+    <input type="text" name="tc" name="tc">
+    <br><br>
+    EXP_DATE
+    <input type="date" name="ed" id="ed">
+    <br><br>
+
+    <button class="ui primary button">
+        Submit
+      </button>
+      <span class="ui red button">
+        <a href="/inventory" style="color:#FFFFFF">Discard</a>
+      </span>
+</form>
+
+<script>
+    function dmCheck() {
+        var val = document.getElementById("type").value;
+        if(val == "damaged"){
+            dm.style.display = "block";
+            ndm.style.display = "none";
+        }
+        else{
+            ndm.style.display = "block";
+            dm.style.display = "none";
+        }
+    }
+</script>

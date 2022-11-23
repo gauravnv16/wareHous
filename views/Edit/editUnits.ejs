@@ -1,0 +1,37 @@
+<button class="ui button">
+    <a href="/units">back</a>
+</button>
+
+<br><br>
+
+<h1>Edit Unit</h1>
+<br><br>
+<form action="/units/edit" method="post">
+    <% for(var i = 0 ; i <units.length ; i++) {%>
+        <div class="ui labeled input">
+            <div class="ui label">
+                Unit
+            </div>
+            <input type="text" placeholder="Name.." name="uname" id="uname" value=<%=units[i].UNIT_NAME%> >
+          </div>
+        <br><br>
+        isActive:
+        <select name="active" id="active" class="ui selection dropdown">
+            <% if(units[i].ISACTIVE == 1){ %>
+                <option value="true">true</option>
+            <% } else {%>
+                <option value="false">false</option>
+            <% } %>
+            <option value="true">true</option>
+            <option value="false">false</option>
+        </select>
+        <br><br>
+        <br><br>
+        <br><br>
+        <div class="ui buttons">
+            <span class="ui button"><a href="/units">Cancel</a></span>
+            <div class="or"></div>
+            <button class="ui positive button">Save</button>
+        </div>
+    <% } %>
+</form>

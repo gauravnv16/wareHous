@@ -1,0 +1,50 @@
+<h1>update Product Details</h1>
+
+<form action="/inventory/edit" method="post" id="ndm" >
+    
+    <% for(var k=0; k<products.length ;k++) {%>
+    <input type="text" name="pid" id="pid" class="hidden" value=<%= products[k].IID%>>
+    vendor Code:
+    <input type="text" name="vcode" value=<%= products[k].VENDOR_CODE%> >
+    <br><br>
+    Product Name: 
+    <input type="text" name="pname" id="pname" value=<%= products[k].PNAME%>>
+    <br><br>
+    Product Description:
+    <input type="text" name="desc" id="desc" value=<%= products[k].PDESCRIPTION%>>
+    <br><br>
+
+    category:
+    <select name="category" id="category">
+        <option value=<%= products[k].PCATEGORY%>><%= products[k].PCATEGORY%></option>
+        <% for(var i=0; i<category.length ;i++) { %>
+            <option value=<%=category[i].CAT_NAME%>><%=category[i].CAT_NAME%></option>
+        <% } %>
+    </select>
+    <br><br>
+    unit:
+    <select name="unit" id="unit">
+        <option value=<%= products[k].PUNIT%>><%= products[k].PUNIT%></option>
+        <% for(var i=0; i<units.length ;i++) { %>
+            <option value=<%=units[i].UNIT_NAME%>><%=units[i].UNIT_NAME%></option>
+        <% } %>
+    </select>
+   
+
+    <br><br>
+    Quantity:
+    <input type="text" name="qty" id="qty" value=<%= products[k].QTY%>>
+    <br><br>
+    PPI:
+    <input type="text" name="ppi" id="ppi" value=<%= products[k].PPI%>>
+    <br><br>
+    EXP_DATE
+    <input type="date" name="ed" id="ed" value=<%= products[k].EXP_DATE%>>
+    <br><br>
+    <% } %>
+
+    <button>Submit</button>
+</form>
+
+
+

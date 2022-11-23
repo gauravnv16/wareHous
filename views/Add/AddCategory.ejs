@@ -1,0 +1,33 @@
+
+<button class="ui button">
+    <a href="/category">back</a>
+</button>
+
+
+<br>
+
+<h1>Add Category</h1>
+<form action="/category/add" method="post">
+    <div class="ui labeled input">
+        <div class="ui label">
+            category
+        </div>
+        <input type="text" placeholder="Name.." name="cname" id="cname">
+      </div>
+ 
+    <br><br>
+    
+    <select class="ui selection dropdown" name="active" id="active">
+        <option value="" class="item">Is Active</option>
+        <option value="1" class="item">True</option>
+        <option value="0" class="item">False</option>
+    </select>
+    <br><br>
+    <br><br>
+    <br><br>
+    <div class="ui buttons">
+        <span class="ui button"><a href="/category">Cancel</a></span>
+        <div class="or"></div>
+        <button class="ui positive button">Save</button>
+      </div>
+</form>

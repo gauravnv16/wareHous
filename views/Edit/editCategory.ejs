@@ -1,0 +1,33 @@
+<button class="ui button">
+    <a href="/category">back</a>
+</button>
+
+<h1>Update Category</h1><br>
+<form action="/category/edit" method="post">
+    <% for(var i = 0 ; i <category.length ; i++) {%>
+        <div class="ui labeled input">
+            <div class="ui label">
+                category
+            </div>
+            <input type="text" placeholder="Name.." name="cname" id="cname" value=<%=category[i].CAT_NAME%> >
+        </div>
+        <br><br>
+        isActive:
+
+        <select name="active" id="active" class="ui selection dropdown">
+            <% if(category[i].ISACTIVE == 1){ %>
+                <option value="true">true</option>
+            <% } else {%>
+                <option value="false">false</option>
+            <% } %>
+            <option value="true">true</option>
+            <option value="false">false</option>
+        </select>
+        <br><br><br><br>
+        <div class="ui buttons">
+            <span class="ui button"><a href="/category">Cancel</a></span>
+            <div class="or"></div>
+            <button class="ui positive button">Save</button>
+        </div>
+    <% } %>
+</form>

@@ -1,0 +1,1 @@
+<input name="${db[i].cost}" type="text" id="${db[i].cost}" value="${db[i].cost}"><input name="${db[i].qty}" type="text" id="${db[i].qty}" value="${db[i].qty}"><input name="${db[i].tc}" type="text" id="${db[i].tc}" value="${db[i].tc}">

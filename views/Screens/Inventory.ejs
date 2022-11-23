@@ -1,0 +1,106 @@
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js" integrity="sha512-QEAheCz+x/VkKtxeGoDq6nsGyzTx/0LMINTgQjqZ0h3+NjP+bCsPYz3hn0HnBkGmkIFSr7QcEZT+KyEM7lbLPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<button class="ui button">
+    <a href="/inventory">back</a>
+</button>
+
+<h1>Inventory</h1>
+
+<form action="/inventory/search" method="post">
+    <div class="ui action input">
+        <input type="text" placeholder="Search..." name="pname" id="pname">
+        <button class="ui button">Search</button>
+      </div>
+</form>
+<br>
+
+<div class="ui animated  fade button" tabindex="0">
+    <div class="visible content"><i class="plus icon"></i> Add a product</div>
+    <div class="hidden content">
+        <a a href="/inventory/add">New Product</a>
+    </div>
+</div>
+
+<% if (sear == -1 || sear == 1) {%>
+    <button class="ui button">
+        <a href="/inventory">clear search</a>
+    </button>
+<% } %>
+<br><br>
+
+
+<table class="ui sortable collapsing celled table">
+    <thead>
+        <tr>
+            <th class="sorted descending" >S.no</th>
+            <th>Product Name</th>
+            <th>Vendor Code</th>
+            <th>Unit</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>PPI</th>
+            <th>TC</th>
+            <th>BarCode</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <% if (products.length == 0) {%>
+        <td>No products !! <i class="meh outline icon"></i></td>
+    <% } %>
+    <% for(var i=0; i<products.length ;i++) { %>
+        <tr>
+            <td><%= i + 1%></td>
+            <td><%= products[i].PNAME%></td>
+            <td><%= products[i].VENDOR_CODE%></td>
+            <td><%= products[i].PUNIT%></td>
+            <td><%= products[i].PCATEGORY%></td>
+            <td><%= products[i].QTY%></td>
+            <td><%= products[i].PPI%></td>
+            <td><%= products[i].TC%></td>
+            <td><svg id="<%= products[i].PNAME%>"></svg></td>
+            <%if (!(products[i].ISAPPROVED)) {%>
+            <td>
+                <form action="/approve" method="post" style="display:inline;margin: 10px;">
+                    <input type="text" name="pid" class="hidden1" value=<%= products[i].IID%>>
+                    <button class="ui button">
+                        <i class="check icon"></i>
+                    </button>
+                </form>
+                
+                <form action="/inventory/edit" method="post" style="display:inline;margin: 10px;">
+                    <input type="text" name="pid" class="hidden1" value=<%= products[i].IID%>>
+                    <input type="text" name="stat" class="hidden1" value="1">
+                    <button class="ui button">
+                        <i class="edit outline icon"></i>
+                    </button>
+                </form>
+                
+                <form action="/inventory/delete" method="post" style="display:inline;margin: 10px;">
+                    <input type="text" name="pid" class="hidden1" value=<%= products[i].IID%>>
+                    <button class="ui button">
+                        <i class="trash alternate outline icon"></i>
+                    </button>
+                </form>
+            </td>
+            <% } else { %>
+                <% if (status.isadmin == true ||  status.ischecker == true) {%>
+                    <td><form action="/inventory/delete" method="post">
+                        <input type="text" name="pid" class="hidden1" value=<%= products[i].IID%>>
+                        <button class="ui button"><i class="trash alternate outline icon"></i></button>
+                    </form> </td>
+                <% } else { %>
+                    <td>-</td>
+                <% } %>
+            <% } %>
+        </tr>
+        <script>
+            JsBarcode("#<%= products[i].PNAME%>", "<%= products[i].IID%>",{
+            lineColor: "#00000",
+            width: 1,
+            height: 40,
+            displayValue: false
+});
+        </script>
+    <% } %>
+</table>

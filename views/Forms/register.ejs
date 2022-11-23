@@ -1,0 +1,103 @@
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .register_form{
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 20px ;
+        margin: 20px;
+        border-radius: 10px;
+    }
+
+    .register_form h2{
+        margin-left:10px;
+        font-family: 'Roboto Condensed', sans-serif;
+    }
+
+    
+
+    .inp_div{
+        background-color:rgb(236, 237, 239);
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin:10px;
+    }
+    .inp_div input{
+        border: none;
+        width:200px;
+        margin-left: 5px;
+        padding:5px 0px;
+        background-color:none;
+        background-color:rgb(236, 237, 239);
+    }
+
+    .inp_div input:focus{
+        border: none;
+        outline: none;
+    }
+
+    .sub_text{
+        font-size:12px;
+        margin:10px;
+    }
+    .btn-full{
+        margin:10px;
+    }
+    .btn-full button{
+        border: none;
+        border-radius: 5px;
+        background-color:#5800FF;
+        color:#fff;
+        width:99%;
+        padding:9px;
+        margin:10px;
+        
+    }
+
+    .btn-full p{
+        border: none;
+        border-radius: 5px;
+        background-color:#ebebeb;
+        /* color:#fff; */
+        text-align: center;
+        width:85%;
+        padding:9px;
+        margin:10px;
+    }
+    btn-full p a{
+        text-decoration: none;
+    }
+</style>
+<div class="container">
+    <form action="/register" method="post" class="register_form">
+        <h2><i class="user circle outline icon"></i> Register</h2>
+        <div class="inp_div">
+            <i class="fa-brands fa-atlassian"></i>
+            <input type="text" name="uname" id="uname" placeholder="Name..">
+        </div>
+
+        <div class="inp_div">
+            <i class="envelope outline icon"></i>
+            <input type="email" name="uemail" id="uemail" placeholder="Email..">
+        </div>
+        
+        <div class="inp_div">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" name="upass" id="upass" placeholder="Password...">
+        </div>
+    
+        <div class="inp_div">
+            <i class="fa-solid fa-address-book"></i>
+            <input type="text" name="ucno" id="ucno" placeholder="Contact no...">
+        </div>
+
+        <div class="btn-full"><button class="ui primary button">register</button></div>
+        
+
+        <div style="text-align:center">----or----</div>
+
+        <div class="btn-full"><p class="sub_text">old user? <a style="text-decoration: none;color:#5800FF" href="/login">Log In</a></p></div>
+    </form>
+</div>

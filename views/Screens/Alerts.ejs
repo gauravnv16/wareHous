@@ -1,0 +1,59 @@
+<button class="ui button">
+    <a href="/inventory">back</a>
+</button>
+
+<h1>Alert</h1>
+<div class="ui raised segments">
+    <div class="ui segment">
+        <div class="ui button" tabindex="0">
+            <a href="/alerts/lowinventory"><i class="bell outline icon"></i> low Inventory</a>
+        </div>
+        <% if (typ != 0){%>
+            <div class="ui primary button" tabindex="0">
+                <a style="color:white;" href="/send"> Send Alerts to admin <i class="paper plane outline icon"></i></a>
+            </div>
+        <%}%>
+    </div>
+    <div class="ui segment">
+        <div class="ui button" tabindex="0">
+            <a href="/alerts/lowinventory"><i class="bell outline icon"></i> Expiring Stock</a>
+        </div>
+        <% if (typ != 0){%>
+            <div class="ui primary button" tabindex="0">
+                <a style="color:white;" href="/alerts/lowinventory"> Send Alerts to admin <i class="paper plane outline icon"></i></a>
+            </div>
+        <%}%>
+    </div>
+
+  </div>
+
+
+<% if (typ == 1) { %>
+
+    <table class="ui collapsing table">
+        <thead>
+            <tr>
+                <th>S.no</th>
+                <th>Product Name</th>
+                <th>Vendor Code</th>
+                <th>Unit</th>
+                <th>Category</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <% if(products.length  == 0) { %>
+            <tr><td style="color:green">All items are in stock</td></tr>
+        <% } %>
+        <% for(var i=0; i<products.length ;i++) { %>
+            <tr>
+                <td><%= i + 1%></td>
+                <td><%= products[i].PNAME%></td>
+                <td><%= products[i].VENDOR_CODE%></td>
+                <td><%= products[i].PUNIT%></td>
+                <td><%= products[i].PCATEGORY%></td>
+                <td style="color:Red"><%= products[i].QTY%></td>
+    </table>
+    <% } %>
+<% } %>
+<br><br>
+

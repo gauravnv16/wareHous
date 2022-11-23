@@ -1,0 +1,152 @@
+<button class="ui button">
+    <a href="/manageorders">back</a>
+</button>
+
+<h1>Orders</h1>
+
+<div class="ui labeled input">
+    <div class="ui label" style="text-align:center">
+        <i class="user outline icon"></i>
+    </div>
+    <input type="text" name="name" id="name" placeholder="Name..">
+  </div>
+
+
+<h3><i class="boxes icon"></i> Product Info</h3>
+
+<select name="prdt" class="ui dropdown" id="prdt">
+    <option value="">select product</option>
+    <% for (var i = 0;i<products.length;i++) { %>
+        <option value="<%= products[i].PNAME%>_<%=products[i].PPI%>"><%=products[i].PNAME%></option>
+    <% } %>
+</select>
+<br><br>
+<div class="ui right labeled input">
+    <input type="text" placeholder="Enter Quantity.." name="qty" id="qty">
+    <div class="ui basic label">
+        Nos
+    </div>
+</div>
+
+
+<button id="addbtn" class="ui button"><i class="plus icon"></i> Add</button>
+<br><br>
+<table class="ui collapsing table">
+    <thead>
+        <tr>
+            <th>S.no</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Cost</th>
+        </tr>
+    </thead>
+    <tr>
+            <table id="mytable">
+
+            </table>
+    </tr>
+</table>
+
+<h6>Total Cost : <span id="demo"></span>
+</h6>
+<form action="/placeOrder" method="post">
+    <div id="myform" class="hidden1"></div>
+    <div class="ui left action input">
+        <button class="ui teal labeled icon button">
+          <i class="cart icon"></i>
+          Checkout
+        </button>
+      </div>
+</form>
+
+
+<script>
+var e =  document.getElementById("myform");
+var addbtn = document.getElementById("addbtn");
+var db = [];
+var table = document.getElementById("mytable");
+var s = 0;
+var sum = document.getElementById("demo");
+sum.innerHTML = s;
+
+function formg(){
+    var name = document.getElementById("name").value;
+    var formString = `<input name="name" type="text" id="name"  value="${name}">`;
+    for(var i = 0; i <db.length; i++){
+        formString += `<input name="${db[i].pname}" type="text" id="${db[i].pname}" value="${db[i].pname}_${db[i].qty}_${db[i].cost}_${db[i].tc}">`;
+
+    }
+    e.innerHTML = formString;
+}
+function printTable(){
+    s = 0;
+    var  str= '';
+    for(var i = 0; i <db.length; i++){
+        str += `<tr><td>${i+1}.</td><td>${db[i].pname}</td><td>${db[i].qty}</td><td>${db[i].cost * db[i].qty}</td><tr>`;
+        s = s + db[i].tc; 
+    }
+    table.innerHTML = str;
+    sum.innerHTML = s;
+    formg();
+}
+
+addbtn.addEventListener("click", function(){
+    var prinfo = document.getElementById("prdt").value.split("_");
+    var pname = prinfo[0];
+    var cost = parseFloat(prinfo[1]);
+    
+    var qty = parseFloat(document.getElementById("qty").value);
+    
+    if(db.length == 0){
+        db.push({
+                pname: pname,
+                cost: cost,
+                qty: qty,
+                tc:(cost*qty)
+        });
+    }
+    else{
+    var k = 0;
+    for (var i = 0; i <db.length; i++) {
+        if(db[i].pname == pname) {
+            k++;
+            db[i].qty = qty;
+            db[i].tc = (db[i].qty * db[i].cost);
+        }
+        else{
+        continue;
+        break;
+        }
+    }
+    }
+
+    if(k == 0){
+        db.push({
+                pname: pname,
+                cost: cost,
+                qty: qty,
+                tc:(cost*qty)
+        });
+    }
+
+    printTable();
+
+})
+
+
+
+function myfun(pname){
+    for (var i = 0; i <db.length; i++) {
+        if(db[i].pname == pname) {
+
+            db[i].qty = qty;
+            db[i].tc = (db[i].qty * db[i].cost);
+
+            printTable();
+        }
+        else{
+        continue;
+        }
+    }
+}
+</script>
